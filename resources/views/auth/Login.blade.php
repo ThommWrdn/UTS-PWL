@@ -1,7 +1,5 @@
-<!-- Panggil layout dasar dari folder layouts -->
 @extends('layouts.app')
 
-<!-- Bagian isi halamannya ditaruh di sini -->
 @section('content')
 
 <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
@@ -12,7 +10,6 @@
             </div>
             
             <div class="card-body p-4">
-                <!-- Kalo ada session namanya 'error' (misal: gagal login), munculin pesannya -->
                 @if(session('error'))
                     <div class="alert alert-danger" role="alert">
                         {{ session('error') }}
@@ -24,37 +21,35 @@
                     </div>
                 @endif
 
-                <!-- Form login buat nembak data ke route POST /login -->
                 <form method="POST" action="/login">
-                        <!-- Wajib ada ini biar aplikasi tau form ini aman (bukan dari hacker) -->
                         @csrf
                         
                         <div class="mb-3">
-                            <!-- error digunakan untuk menampilkan pesan error dari validasi Laravel -->
                             @error('email')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
                                 </div>
                             @enderror
                             <label class="form-label fw-bold">Alamat Email</label>
-                            <!-- Input disesuaikan namnya sama di controller (name="email") -->
                             <input type="email" name="email" class="form-control form-control-lg" placeholder="Masukkan email..." required autofocus> 
                         </div>
 
                         <div class="mb-4">
-                            <!-- error digunakan untuk menampilkan pesan error dari validasi Laravel -->
                             @error('password')
                                 <div class="alert alert-danger" role="alert">
                                     {{ $message }}
                                 </div>
                             @enderror
                             <label class="form-label fw-bold">Password</label>
-                            <!-- Input pass buat password -->
                             <input type="password" name="password" class="form-control form-control-lg" placeholder="Masukkan password..." required> 
                         </div>
                         
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg fw-bold">Sign In</button>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <a href="/register" class="text-decoration-none">Belum punya akun? Daftar</a>
                         </div>
                 </form>
             </div>

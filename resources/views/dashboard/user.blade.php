@@ -1,7 +1,5 @@
-<!-- Extend / panggil kerangka utama website -->
 @extends('layouts.app')
 
-<!-- Mulai taro bagian khusus halaman ini -->
 @section('content')
 
     <div class="row align-items-center mb-4">
@@ -9,30 +7,21 @@
             <h1 class="display-6 fw-bold">Dashboard</h1>
             <p class="lead text-muted">Selamat datang, <strong>{{ Auth::user()->name }}</strong>!</p>
         </div>
-        <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
-            <!-- Tombol navigasi menu dasar -->
-            @if(Auth::user()->role == 'admin')
-                <a href="/product" class="btn btn-primary shadow-sm"><i class="bi bi-box"></i> Kelola Data Produk</a> 
-            @endif
-        </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow-sm border-0 bg-light">
                 <div class="card-body py-5 text-center">
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Icon" width="100" class="mb-3 opacity-50">
                     <h3 class="fw-bold">Akses Anda: <span class="text-primary text-uppercase">{{ Auth::user()->role }}</span></h3>
-                    @if(Auth::user()->role == 'admin')
-                        <p class="text-secondary">Anda memiliki akses penuh untuk menambah, mengedit, dan menghapus produk di sistem OP Store.</p>
-                        <a href="/product" class="btn btn-outline-primary mt-2">Menuju Halaman Produk</a>
-                    @else
+                    @if(Auth::user()->role == 'user')
                         <p class="text-secondary">Anda login sebagai User biasa. Anda hanya dapat melihat dashboard ini.</p>
+                    @else
+                        <p class="text-secondary">Anda login sebagai Admin . Anda hanya dapat melihat dashboard ini.</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
 
-<!-- Penutup sektion -->
 @endsection
