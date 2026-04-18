@@ -37,10 +37,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/product', [AuthController::class, 'tampil'])->name('product.tampil');
-    Route::get('/product/tambah', [ProductsController::class, 'tambah'])->name('product.tambah');
-    Route::post('/product/simpan', [ProductsController::class, 'simpan'])->name('product.simpan');
+    Route::get('/product', [ProductsController::class, 'index'])->name('product.index');
+    Route::get('/product/show', [ProductsController::class, 'show'])->name('product.show');
+    Route::get('/product/tambah', [ProductsController::class, 'create'])->name('product.tambah');
+    Route::post('/product/simpan', [ProductsController::class, 'store'])->name('product.simpan');
     Route::get('/product/edit/{id}', [ProductsController::class, 'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductsController::class, 'update'])->name('product.update');
-    Route::get('/product/hapus/{id}', [ProductsController::class, 'hapus'])->name('product.hapus');
+    Route::get('/product/hapus/{id}', [ProductsController::class, 'destroy'])->name('product.hapus');
 });

@@ -4,21 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Products;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    public function tampil()
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
+
+    public function index()
+    {
+        return view('product.index');
+    }
+
+    public function show()
     {
         $product = Products::all();
-        return view('product.tampil', compact('product'));
+        return view('product.show', compact('product'));
     }
 
-    public function tambah()
+    public function create()
     {
-        return view('product.tambah');
+        return view('product.create');
     }
 
-    public function simpan(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'kode_produk' => 'required',
@@ -48,7 +60,7 @@ class ProductsController extends Controller
         return redirect('/product')->with('success', 'Data berhasil diupdate');
     }
 
-    public function hapus($id)
+    public function destroy($id)
     {
         $product = Products::find($id);
         $product->delete();
