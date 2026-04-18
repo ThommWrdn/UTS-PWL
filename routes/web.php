@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     if (Illuminate\Support\Facades\Auth::check()) {

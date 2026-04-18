@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Products;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:user');
-    }
 
     public function store(Request $request)
     {
@@ -22,7 +18,7 @@ class OrderController extends Controller
             'jumlah' => 'required|integer|min:1',
         ]);
 
-        $product = Product::find($request->product_id);
+        $product = Products::find($request->product_id);
 
         if ($product->stock < $request->jumlah) {
             return redirect()->back()->with('error', 'Stok tidak mencukupi');
@@ -51,7 +47,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        return view('order.index');
+        $product = Products::all();
+        return view('order.index', compact('product'));
     }
 
     public function show()
