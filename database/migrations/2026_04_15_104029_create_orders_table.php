@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('metode_pembayaran');
             $table->string('status');
             $table->decimal('total_harga', 10, 2);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
