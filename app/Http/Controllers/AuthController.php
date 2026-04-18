@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('login');
+        return view('auth.Login');
     }
 
     public function login(Request $request)
@@ -22,10 +22,39 @@ class AuthController extends Controller
         
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->intended('admin/dashboard');
+            } else {
+                return redirect()->intended('user/dashboard');
+            }
         }
         
         return back()->with('failed', 'Email atau password salah!');
+    }
+
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+            'role' => 'required|in:admin,user',
+        ]);
+
+        $user = User::create($validated);
+
+        Auth::login($user);
+
+        if (Auth::user()->role == 'admin') {
+            return redirect()->intended('admin/dashboard');
+        } else {
+            return redirect()->intended('user/dashboard');
+        }
     }
 
     public function logout(Request $request)
@@ -40,6 +69,10 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+        if (Auth::user()->role == 'admin') {
+            return view('dashboard.admin');
+        } else {
+            return view('dashboard.user');
+        }
     }
 }
