@@ -1,7 +1,5 @@
-<!-- Extend / panggil kerangka utama website -->
 @extends('layouts.app')
 
-<!-- Mulai taro bagian khusus halaman ini -->
 @section('content')
 
     <div class="row align-items-center mb-4">
@@ -10,7 +8,6 @@
             <p class="lead text-muted">Selamat datang, <strong>{{ Auth::user()->name }}</strong>!</p>
         </div>
         <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
-            <!-- Tombol navigasi menu dasar -->
             @if(Auth::user()->role == 'admin')
                 <a href="/product" class="btn btn-primary shadow-sm"><i class="bi bi-box"></i> Kelola Data Produk</a> 
             @endif
@@ -34,5 +31,4 @@
         </div>
     </div>
 
-<!-- Penutup sektion -->
 @endsection
