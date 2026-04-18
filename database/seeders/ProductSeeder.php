@@ -14,46 +14,64 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        // PENTING: Karena Produk sekarang butuh Category (Foreign Key), kita harus suntik dummy Category dulu
+        $categoryId = DB::table('category')->insertGetId([
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         Products::insert([
             [
-                'kode_produk' => 'DIG-001',
-                'nama_produk' => 'Sistem Informasi Kasir (Berbasis Web)',
-                'harga' => '1500000',
+                'category_id' => $categoryId,
+                'name' => 'Sistem Informasi Kasir (Berbasis Web)',
+                'price' => 1500000,
+                'stock' => 10,
+                'description' => 'Aplikasi lengkap',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode_produk' => 'DIG-002',
-                'nama_produk' => 'Template Desain UI/UX E-Commerce',
-                'harga' => '250000',
+                'category_id' => $categoryId,
+                'name' => 'Template Desain UI/UX E-Commerce',
+                'price' => 250000,
+                'stock' => 25,
+                'description' => 'Template E-Commerce',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode_produk' => 'DIG-003',
-                'nama_produk' => 'E-Book Mahir Belajar Laravel 11',
-                'harga' => '75000',
+                'category_id' => $categoryId,
+                'name' => 'E-Book Mahir Belajar Laravel 11',
+                'price' => 75000,
+                'stock' => 50,
+                'description' => 'Materi mantap',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode_produk' => 'DIG-004',
-                'nama_produk' => 'Source Code: Sistem Manajemen Rumah Sakit',
-                'harga' => '3000000',
+                'category_id' => $categoryId,
+                'name' => 'Source Code: Sistem Manajemen Rumah Sakit',
+                'price' => 3000000,
+                'stock' => 5,
+                'description' => 'Skala Enterprise',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode_produk' => 'DIG-005',
-                'nama_produk' => 'Aset Vektor 3D Premium (Tech Theme)',
-                'harga' => '120000',
+                'category_id' => $categoryId,
+                'name' => 'Aset Vektor 3D Premium (Tech Theme)',
+                'price' => 120000,
+                'stock' => 100,
+                'description' => 'Vektor modern',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode_produk' => 'DIG-006',
-                'nama_produk' => 'E-Book Seri Master PHP & MySQL',
-                'harga' => '65000',
+                'category_id' => $categoryId,
+                'name' => 'E-Book Seri Master PHP & MySQL',
+                'price' => 65000,
+                'stock' => 88,
+                'description' => 'Fundamental PHP',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

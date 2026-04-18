@@ -16,6 +16,7 @@
                     <h3 class="fw-bold">Akses Anda: <span class="text-primary text-uppercase">{{ Auth::user()->role }}</span></h3>
                     @if(Auth::user()->role == 'user')
                         <p class="text-secondary">Anda login sebagai User biasa. Anda hanya dapat melihat dashboard ini.</p>
+                        <a href="{{ route('order.index') }}" class="btn btn-primary mt-3">Lihat Produk</a>
                     @else
                         <p class="text-secondary">Anda login sebagai Admin . Anda hanya dapat melihat dashboard ini.</p>
                     @endif

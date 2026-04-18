@@ -7,16 +7,5 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderDetail extends Model
 {
-    public function order(): BelongsTo
-    {
-        return $this->belongsTo(Order::class);
-    }
-
-    public function product(): BelongsTo
-    {
-        return $this->belongsTo(Products::class);
-    }
-
-    protected $table = 'order_detail';
-    protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'subtotal'];
+    //
 }

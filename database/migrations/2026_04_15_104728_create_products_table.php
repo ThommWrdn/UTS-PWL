@@ -15,23 +15,16 @@ return new class extends Migration
     {
         // Bikin tabel namanya 'products'
         Schema::create('products', function (Blueprint $table) {
-            // Kolom id otomatis auto increment dan jadi primary key
             $table->id();
-            // Kolom kode_produk, tipenya varchar/string, unique biar ngga boleh ada kembar
-            $table->string('kode_produk')->unique();
-            // Kolom buat nama_produk
-            $table->string('nama_produk');
-            // Kolom buat harga, ini diset string padahal angka tapi yaudahlah
-            $table->string('harga');
-            // Bikin kolom otomatis created_at sama updated_at buat nyatet kapan data dibuat/diubah
+            $table->foreignId('category_id')->constrained('category')->cascadeOnDelete();
+            $table->string('name');
+            $table->decimal('price', 12, 2);
+            $table->integer('stock')->default(0);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     * Buat ngerollback alias ngehapus tabel products kalo diketik php artisan migrate:rollback
-     */
     public function down(): void
     {
         Schema::dropIfExists('products');

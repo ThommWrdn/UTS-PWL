@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     if (Illuminate\Support\Facades\Auth::check()) {
@@ -30,6 +31,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', [AuthController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/show', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/order/tambah', [OrderController::class, 'create'])->name('order.tambah');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/edit/{id}', [OrderController::class, 'edit'])->name('order.edit');
+    Route::post('/order/update/{id}', [OrderController::class, 'update'])->name('order.update');
+    Route::get('/order/hapus/{id}', [OrderController::class, 'destroy'])->name('order.hapus');
+    Route::get('/order/detail/{id}', [OrderController::class, 'detail'])->name('order.detail');
+
+    Route::get('/order/history', [OrderController::class, 'history'])->name('order.history');
+    Route::get('/order/history/{id}', [OrderController::class, 'historyShow'])->name('order.history.show');
+
 });
 
 Route::middleware(['auth'])->group(function () {

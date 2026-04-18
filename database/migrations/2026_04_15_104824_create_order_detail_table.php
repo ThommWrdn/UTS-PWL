@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_detail', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('order')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('product')->onDelete('cascade');
-            $table->integer('quantity');
-            $table->decimal('price', 10, 2);
-            $table->decimal('subtotal', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_detail');
+        Schema::dropIfExists('order_details');
     }
 };
