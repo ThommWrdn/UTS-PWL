@@ -20,9 +20,14 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|min:3',
+        ]);
+
         $category = new Category();
         $category->name = $request->name;
         $category->save();
+
         return redirect()->route('category.index');
     }
 

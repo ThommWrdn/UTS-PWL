@@ -62,4 +62,16 @@ class OrderController extends Controller
         $order = Order::where('user_id', Auth::id())->get();
         return view('order.history', compact('order'));
     }
+
+    public function detail($id)
+    {
+        $order = Order::with('orderDetails.product')->findOrFail($id);
+        
+        // Security check
+        if ($order->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('order.detail', compact('order'));
+    }
 }

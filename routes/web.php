@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 
@@ -57,4 +58,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/product/edit/{id}', [ProductsController::class, 'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductsController::class, 'update'])->name('product.update');
     Route::get('/product/hapus/{id}', [ProductsController::class, 'destroy'])->name('product.hapus');
+
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::get('/category/hapus/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 });
