@@ -9,14 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:admin');
-    }
-
     public function index()
     {
-        return view('product.index');
+        $product = Products::all();
+        return view('product.index', compact('product'));
     }
 
     public function show()

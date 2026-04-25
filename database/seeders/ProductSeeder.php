@@ -14,11 +14,8 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // PENTING: Karena Produk sekarang butuh Category (Foreign Key), kita harus suntik dummy Category dulu
-        $categoryId = DB::table('category')->insertGetId([
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // Ambil category pertama yang sudah diisi oleh CategorySeeder
+        $categoryId = DB::table('category')->first()->id;
 
         Products::insert([
             [

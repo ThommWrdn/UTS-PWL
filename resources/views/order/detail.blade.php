@@ -6,11 +6,40 @@
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h4 class="mb-0"><i class="bi bi-receipt me-2"></i>Detail Pesanan #{{ $order->id }}</h4>
-                <span class="badge bg-{{ $order->status == 'pending' ? 'warning text-dark' : ($order->status == 'success' ? 'success' : 'secondary') }}">
-                    {{ ucfirst($order->status) }}
-                </span>
+                @if($order->status === 'pending')
+                    <span class="badge bg-warning text-dark fs-6">
+                        <i class="bi bi-hourglass-split me-1"></i>Pending
+                    </span>
+                @elseif($order->status === 'delivery')
+                    <span class="badge bg-info text-white fs-6">
+                        <i class="bi bi-truck me-1"></i>Delivery
+                    </span>
+                @elseif($order->status === 'delivered')
+                    <span class="badge text-white fs-6" style="background-color:#fd7e14">
+                        <i class="bi bi-box-seam me-1"></i>Delivered
+                    </span>
+                @elseif($order->status === 'success')
+                    <span class="badge bg-success fs-6">
+                        <i class="bi bi-check-circle-fill me-1"></i>Success
+                    </span>
+                @endif
             </div>
             <div class="card-body">
+
+                {{-- Flash Messages --}}
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>{{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
                 <div class="row mb-4">
                     <div class="col-sm-6">
                         <h6 class="text-muted mb-1">Informasi Pemesanan</h6>
@@ -69,10 +98,51 @@
                     </table>
                 </div>
 
-                <div class="mt-4 text-start">
-                    <a href="{{ route('order.history') }}" class="btn btn-secondary px-4">
-                        <i class="bi bi-arrow-left me-1"></i> Kembali ke Riwayat
-                    </a>
+                <div class="mt-4 d-flex gap-2 flex-wrap">
+
+                    {{-- Tombol Kembali: beda tujuan berdasarkan role --}}
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.orders') }}" class="btn btn-secondary px-4">
+                            <i class="bi bi-arrow-left me-1"></i>Kembali ke Kelola Pesanan
+                        </a>
+                    @else
+                        <a href="{{ route('order.history') }}" class="btn btn-secondary px-4">
+                            <i class="bi bi-arrow-left me-1"></i>Kembali ke Riwayat
+                        </a>
+                    @endif
+
+                    {{-- [ADMIN] Tombol aksi berdasarkan status --}}
+                    @if(Auth::user()->role === 'admin')
+                        @if($order->status === 'pending')
+                            <form action="{{ route('admin.order.approve', $order->id) }}" method="POST"
+                                  onsubmit="return confirm('Setujui pesanan #{{ $order->id }}?')">
+                                @csrf
+                                <button type="submit" class="btn btn-primary px-4">
+                                    <i class="bi bi-truck me-1"></i>Setujui (Kirim Delivery)
+                                </button>
+                            </form>
+                        @elseif($order->status === 'delivered')
+                            <form action="{{ route('admin.order.complete', $order->id) }}" method="POST"
+                                  onsubmit="return confirm('Tandai pesanan #{{ $order->id }} sebagai selesai?')">
+                                @csrf
+                                <button type="submit" class="btn btn-success px-4">
+                                    <i class="bi bi-check2-circle me-1"></i>Tandai Selesai
+                                </button>
+                            </form>
+                        @endif
+                    @endif
+
+                    {{-- [USER] Konfirmasi diterima saat status delivery --}}
+                    @if(Auth::user()->role === 'user' && $order->status === 'delivery' && $order->user_id === Auth::id())
+                        <form action="{{ route('order.confirm', $order->id) }}" method="POST"
+                              onsubmit="return confirm('Konfirmasi bahwa barang sudah diterima?')">
+                            @csrf
+                            <button type="submit" class="btn btn-warning text-dark fw-semibold px-4">
+                                <i class="bi bi-hand-thumbs-up me-1"></i>Konfirmasi Diterima
+                            </button>
+                        </form>
+                    @endif
+
                 </div>
             </div>
         </div>

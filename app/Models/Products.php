@@ -12,5 +12,7 @@ class Products extends Model
         'kode_produk',
         'nama_produk',
         'harga',
+        'stock',
+        'deskripsi',
     ];
 }

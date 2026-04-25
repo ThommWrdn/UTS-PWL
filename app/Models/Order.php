@@ -12,6 +12,11 @@ class Order extends Model
         'status',
     ];
 
+    const STATUS_PENDING   = 'pending';
+    const STATUS_DELIVERY  = 'delivery';
+    const STATUS_DELIVERED = 'delivered';
+    const STATUS_SUCCESS   = 'success';
+
     public function user()
     {
         return $this->belongsTo(User::class);

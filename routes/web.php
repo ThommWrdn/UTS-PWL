@@ -44,6 +44,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/order/history', [OrderController::class, 'history'])->name('order.history');
     Route::get('/order/history/{id}', [OrderController::class, 'historyShow'])->name('order.history.show');
 
+    Route::post('/order/confirm/{id}', [OrderController::class, 'confirmReceived'])->name('order.confirm');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -65,4 +66,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category/hapus/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+    Route::get('/admin/orders', [OrderController::class, 'adminOrders'])->name('admin.orders');
+    Route::post('/admin/order/approve/{id}', [OrderController::class, 'approve'])->name('admin.order.approve');
+    Route::post('/admin/order/complete/{id}', [OrderController::class, 'complete'])->name('admin.order.complete');
+    Route::get('/admin/order/detail/{id}', [OrderController::class, 'detail'])->name('admin.order.detail');
 });

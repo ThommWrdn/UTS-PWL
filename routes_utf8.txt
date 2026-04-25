@@ -1,0 +1,39 @@
+﻿
+  GET|HEAD  / ....... 
+  POST      _boost/browser-logs boost.ΓÇª
+  GET|HEAD  admin/dashboard admin.dashboard ΓÇ║ AuthController@dΓÇª
+  GET|HEAD  category category.index ΓÇ║ CategoryController@indeΓÇª
+  GET|HEAD  category/create category.create ΓÇ║ CategoryControlleΓÇª
+  GET|HEAD  category/edit/{id} category.edit ΓÇ║ CategoryContΓÇª
+  GET|HEAD  category/hapus/{id} category.destroy ΓÇ║ CategoryControΓÇª
+  POST      category/store category.store ΓÇ║ CategoryControlleΓÇª
+  POST      category/update/{id} category.update ΓÇ║ CategoryContΓÇª
+  GET|HEAD  login loΓÇª
+  POST      login loΓÇª
+  GET|HEAD  logout lΓÇª
+  GET|HEAD  order orΓÇª
+  GET|HEAD  order/detail/{id} order.detail ΓÇ║ OrderControlΓÇª
+  GET|HEAD  order/edit/{id} order.edit ΓÇ║ OrderControlΓÇª
+  GET|HEAD  order/hapus/{id} order.hapus ΓÇ║ OrderControlleΓÇª
+  GET|HEAD  order/history order.history ΓÇ║ OrderController@hΓÇª
+  GET|HEAD  order/history/{id} order.history.show ΓÇ║ OrderController@ΓÇª
+  GET|HEAD  order/show order.show ΓÇ║ OrderController@sΓÇª
+  POST      order/store order.store ΓÇ║ OrderController@sΓÇª
+  GET|HEAD  order/tambah order.tambah ΓÇ║ OrderController@cΓÇª
+  POST      order/update/{id} order.update ΓÇ║ OrderControlΓÇª
+  GET|HEAD  product ΓÇª
+  GET|HEAD  product/edit/{id} product.edit ΓÇ║ ProductsContrΓÇª
+  GET|HEAD  product/hapus/{id} product.hapus ΓÇ║ ProductsControlΓÇª
+  GET|HEAD  product/show product.show ΓÇ║ ProductsControllerΓÇª
+  POST      product/simpan product.simpan ΓÇ║ ProductsControlleΓÇª
+  GET|HEAD  product/tambah product.tambah ΓÇ║ ProductsControllerΓÇª
+  POST      product/update/{id} product.update ΓÇ║ ProductsContrΓÇª
+  GET|HEAD  register register ΓÇ║ AuthController@showRegisteΓÇª
+  POST      register register.submit ΓÇ║ AuthController@registeΓÇª
+  GET|HEAD  storage/{path} storagΓÇª
+  PUT       storage/{path} storage.localΓÇª
+  GET|HEAD  up ...... 
+  GET|HEAD  user/dashboard user.dashboard ΓÇ║ AuthController@daΓÇª
+
+  Showing [35] routes
+

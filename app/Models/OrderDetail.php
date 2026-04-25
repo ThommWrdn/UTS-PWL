@@ -17,6 +17,6 @@ class OrderDetail extends Model
         return $this->belongsTo(Products::class);
     }
 
-    protected $table = 'order_detail';
+    protected $table = 'order_details';
     protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'subtotal'];
 }

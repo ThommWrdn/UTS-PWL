@@ -7,6 +7,7 @@
             @if(Auth::user()->role == 'admin')
                 <a class="nav-link text-white me-3" href="/product">Data Produk</a>
                 <a class="nav-link text-white me-3" href="/category">Kategori</a>
+                <a class="nav-link text-white me-3" href="{{ route('admin.orders') }}">Kelola Pesanan</a>
             @else
                 <a class="nav-link text-white me-3" href="{{ route('order.index') }}">Belanja</a>
                 <a class="nav-link text-white me-3" href="{{ route('order.history') }}">Riwayat Pesanan</a>
