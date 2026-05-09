@@ -93,7 +93,7 @@ class OrderController extends Controller
         return back()->with('success', 'Order disetujui! Barang sedang dalam pengiriman.');
     }
 
-    // [USER] Konfirmasi terima barang: delivery → delivered
+    // [USER] Konfirmasi terima barang & selesai: delivery → success
     public function confirmReceived($id)
     {
         $order = Order::findOrFail($id);
@@ -106,18 +106,8 @@ class OrderController extends Controller
         if ($order->status !== Order::STATUS_DELIVERY) {
             return back()->with('error', 'Order belum dalam status pengiriman.');
         }
-        $order->update(['status' => Order::STATUS_DELIVERED]);
-        return back()->with('success', 'Terima kasih! Barang sudah diterima. Menunggu konfirmasi admin.');
+        $order->update(['status' => Order::STATUS_SUCCESS]);
+        return back()->with('success', 'Terima kasih! Pesanan telah selesai.');
     }
 
-    // [ADMIN] Tandai selesai: delivered → success
-    public function complete($id)
-    {
-        $order = Order::findOrFail($id);
-        if ($order->status !== Order::STATUS_DELIVERED) {
-            return back()->with('error', 'Order belum dikonfirmasi diterima oleh user.');
-        }
-        $order->update(['status' => Order::STATUS_SUCCESS]);
-        return back()->with('success', 'Order selesai! Transaksi berhasil.');
-    }
 }

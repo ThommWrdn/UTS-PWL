@@ -79,16 +79,6 @@
                                         </button>
                                     </form>
 
-                                {{-- [ADMIN] Tandai Selesai: delivered → success --}}
-                                @elseif($order->status === 'delivered')
-                                    <form action="{{ route('admin.order.complete', $order->id) }}" method="POST"
-                                          onsubmit="return confirm('Tandai pesanan #{{ $order->id }} sebagai selesai?')">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-success">
-                                            <i class="bi bi-check2-circle me-1"></i>Tandai Selesai
-                                        </button>
-                                    </form>
-
                                 {{-- Status delivery: menunggu konfirmasi user --}}
                                 @elseif($order->status === 'delivery')
                                     <span class="badge bg-light text-muted border">
