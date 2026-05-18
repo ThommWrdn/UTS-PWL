@@ -70,6 +70,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/orders', [OrderController::class, 'adminOrders'])->name('admin.orders');
     Route::post('/admin/order/approve/{id}', [OrderController::class, 'approve'])->name('admin.order.approve');
-    Route::post('/admin/order/complete/{id}', [OrderController::class, 'complete'])->name('admin.order.complete');
     Route::get('/admin/order/detail/{id}', [OrderController::class, 'detail'])->name('admin.order.detail');
 });

@@ -71,10 +71,10 @@
                                 {{-- Tombol Konfirmasi Diterima: hanya saat status delivery --}}
                                 @if($o->status === 'delivery')
                                     <form action="{{ route('order.confirm', $o->id) }}" method="POST"
-                                          onsubmit="return confirm('Konfirmasi bahwa barang sudah diterima?')">
+                                          onsubmit="return confirm('Konfirmasi bahwa barang sudah diterima dan selesaikan pesanan?')">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-warning text-dark fw-semibold">
-                                            <i class="bi bi-hand-thumbs-up me-1"></i>Konfirmasi Diterima
+                                        <button type="submit" class="btn btn-sm btn-success text-white fw-semibold">
+                                            <i class="bi bi-check-circle me-1"></i>Pesanan Diterima & Selesai
                                         </button>
                                     </form>
                                 @endif
