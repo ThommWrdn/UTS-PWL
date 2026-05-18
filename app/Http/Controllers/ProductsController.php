@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ProductsController extends Controller
 {
@@ -29,17 +31,33 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_produk' => 'required',
-            'nama_produk' => 'required',
-            'harga' => 'required|numeric',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ],[
-            'kode_produk.required' => 'Kode produk wajib diisi',
-            'nama_produk.required' => 'Nama produk wajib diisi',
-            'harga.required' => 'Harga wajib diisi',
-            'harga.numeric' => 'Harga harus berupa angka',
+            'name.required' => 'Nama produk wajib diisi',
+            'price.required' => 'Harga wajib diisi',
+            'price.numeric' => 'Harga harus berupa angka',
+            'gambar.required' => 'Gambar wajib diisi',
+            'gambar.image' => 'Gambar harus berupa file gambar',
+            'gambar.mimes' => 'Gambar harus berupa file jpeg, png, jpg, atau gif',
+            'gambar.max' => 'Gambar maksimal 2MB',
         ]);
         
-        Products::create($request->all());
+        $data = $request->all();
+        // Berikan category_id default karena foreign key ini wajib diisi di database
+        $data['category_id'] = DB::table('category')->first()->id ?? 1;
+
+        if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
+            
+            $filename = time() . '.jpg';
+            $image = Image::make($imageFile)->resize(1000, 1000);
+            Storage::disk('public')->put('images/' . $filename, (string) $image->encode('jpg'));
+            $data['gambar'] = 'images/' . $filename;
+        }
+        
+        Products::create($data);
         return redirect('/product')->with('success', 'Data berhasil ditambahkan');
     }
     
@@ -51,14 +69,49 @@ class ProductsController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],[
+            'name.required' => 'Nama produk wajib diisi',
+            'price.required' => 'Harga wajib diisi',
+            'price.numeric' => 'Harga harus berupa angka',
+            'gambar.image' => 'Gambar harus berupa file gambar',
+            'gambar.mimes' => 'Gambar harus berupa file jpeg, png, jpg, atau gif',
+            'gambar.max' => 'Gambar maksimal 2MB',
+        ]);
+
         $product = Products::find($id);
-        $product->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
+            $filename = time() . '.jpg';
+            
+            $image = Image::make($imageFile)->resize(300, 300);
+            Storage::disk('public')->put('images/' . $filename, (string) $image->encode('jpg'));
+            
+            // Hapus gambar lama agar storage tidak penuh
+            if ($product->gambar) {
+                Storage::disk('public')->delete($product->gambar);
+            }
+            
+            $data['gambar'] = 'images/' . $filename;
+        } else {
+            unset($data['gambar']); // Jangan update gambar jika tidak ada file yang diunggah
+        }
+
+        $product->update($data);
         return redirect('/product')->with('success', 'Data berhasil diupdate');
     }
 
     public function destroy($id)
     {
         $product = Products::find($id);
+        if ($product->gambar) {
+            Storage::disk('public')->delete($product->gambar);
+        }
         $product->delete();
         return redirect('/product');
     }

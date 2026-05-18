@@ -9,31 +9,22 @@
                 <h4 class="m-0">Edit Produk</h4>
             </div>
             <div class="card-body">
-                <form action="/product/update/{{ $p->id }}" method="post">
+                <form action="/product/update/{{ $p->id }}" method="post" enctype="multipart/form-data">
                     @csrf
                     
+
                     <div class="mb-3">
-                        @error('kode_produk')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                        <label class="form-label fw-bold">Kode Produk</label>
-                        <input type="text" class="form-control" name="kode_produk" value="{{ old('kode_produk', $p->kode_produk) }}">
-                    </div>
-                    
-                    <div class="mb-3">
-                        @error('nama_produk')
+                        @error('name')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
                             </div>
                         @enderror
                         <label class="form-label fw-bold">Nama Produk</label>
-                        <input type="text" class="form-control" name="nama_produk" value="{{ old('nama_produk', $p->nama_produk) }}">
+                        <input type="text" class="form-control" name="name" value="{{ old('name', $p->name) }}">
                     </div>
                     
                     <div class="mb-3">
-                        @error('harga')
+                        @error('price')
                             <div class="alert alert-danger" role="alert">
                                 {{ $message }}
                             </div>
@@ -41,10 +32,18 @@
                         <label class="form-label fw-bold">Harga</label>
                         <div class="input-group">
                             <span class="input-group-text">Rp</span>
-                            <input type="number" class="form-control" name="harga" value="{{ old('harga', $p->harga) }}">
+                            <input type="number" class="form-control" name="price" value="{{ old('price', $p->price) }}">
                         </div>
                     </div>
-                    
+                    <div class="mb-3">
+                        @error('gambar')
+                            <div class="alert alert-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <label for="gambar" class="form-label fw-bold">Gambar</label>
+                        <input type="file" class="form-control" id="gambar" name="gambar" value="{{ old('gambar') }}">
+                    </div>
                     <div class="d-flex justify-content-end gap-2">
                         <a href="/product" class="btn btn-secondary">Batal</a>
                         <button type="submit" class="btn btn-warning text-white fw-bold">Update Data</button>

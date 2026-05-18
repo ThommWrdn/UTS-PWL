@@ -16,6 +16,7 @@
                     <th>Nama Produk</th>
                     <th>Harga</th>
                     <th>Stok</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -27,13 +28,20 @@
                     <td>Rp {{ number_format($p->price, 0, ',', '.') }}</td>
                     <td>{{ $p->stock }}</td>
                     <td>
+                        @if($p->gambar)
+                            <img src="{{ asset('storage/' . $p->gambar) }}" alt="{{ $p->name }}" class="img-fluid" style="max-height: 100px;">
+                        @else
+                            <span class="text-muted">No Image</span>
+                        @endif
+                    </td>
+                    <td>
                         <a href="{{ route('product.edit', $p->id) }}" class="btn btn-warning btn-sm text-white">Edit</a>
                         <a href="{{ route('product.hapus', $p->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus produk ini?')">Hapus</a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-muted py-3">Belum ada data produk.</td>
+                    <td colspan="6" class="text-muted py-3">Belum ada data produk.</td>
                 </tr>
                 @endforelse
             </tbody>

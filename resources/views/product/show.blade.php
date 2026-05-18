@@ -16,6 +16,8 @@
                     <th>Kode Produk</th>
                     <th>Nama Produk</th>
                     <th>Harga</th>
+                    <th>Stok</th>
+                    <th>Gambar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -26,6 +28,14 @@
                     <td><span class="badge bg-secondary">{{ $p->kode_produk }}</span></td>
                     <td class="text-start fw-bold">{{ $p->nama_produk }}</td>
                     <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
+                    <td>{{ $p->stock }}</td>
+                    <td>
+                        @if($p->gambar)
+                            <img src="{{ asset('storage/' . $p->gambar) }}" alt="{{ $p->name }}" class="img-fluid" style="max-height: 100px;">
+                        @else
+                            <span class="text-muted">No Image</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="/product/edit/{{ $p->id }}" class="btn btn-warning btn-sm text-white">Edit</a>
                         <a href="/product/hapus/{{ $p->id }}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus produk ini?')">Hapus</a>
@@ -33,7 +43,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-muted">Belum ada data produk.</td>
+                    <td colspan="6" class="text-muted">Belum ada data produk.</td>
                 </tr>
                 @endforelse
             </tbody>

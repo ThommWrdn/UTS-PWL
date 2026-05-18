@@ -28,6 +28,7 @@ Route::middleware('guest')->group(function(){
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('products', ProductsController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
