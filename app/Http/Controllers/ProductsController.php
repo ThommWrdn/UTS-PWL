@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use Mpdf\Mpdf;
 
 class ProductsController extends Controller
 {
@@ -114,5 +115,56 @@ class ProductsController extends Controller
         }
         $product->delete();
         return redirect('/product');
+    }
+
+    private function buildPdf(): array
+    {
+        $products = Products::orderBy('name')->get();
+        $html     = view('product.pdf', compact('products'))->render();
+
+        $mpdf = new Mpdf([
+            'mode'          => 'utf-8',
+            'format'        => 'A4',
+            'orientation'   => 'P',
+            'margin_top'    => 15,
+            'margin_bottom' => 15,
+            'margin_left'   => 15,
+            'margin_right'  => 15,
+        ]);
+
+        $mpdf->SetTitle('Laporan Data Produk');
+        $mpdf->SetAuthor('SistemCRUD');
+        $mpdf->SetCreator('SistemCRUD - mPDF');
+        $mpdf->WriteHTML($html);
+
+        $filename = 'Laporan_Produk_' . now()->format('Ymd_His') . '.pdf';
+
+        return [$mpdf, $filename];
+    }
+
+    /**
+     * Tampilkan PDF langsung di browser (preview).
+     */
+    public function previewPdf()
+    {
+        [$mpdf, $filename] = $this->buildPdf();
+
+        return response($mpdf->Output($filename, 'S'), 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
+    }
+
+    /**
+     * Paksa unduh PDF (download).
+     */
+    public function downloadPdf()
+    {
+        [$mpdf, $filename] = $this->buildPdf();
+
+        return response($mpdf->Output($filename, 'S'), 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 }

@@ -60,6 +60,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/product/edit/{id}', [ProductsController::class, 'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductsController::class, 'update'])->name('product.update');
     Route::get('/product/hapus/{id}', [ProductsController::class, 'destroy'])->name('product.hapus');
+    Route::get('/product/export-pdf', [ProductsController::class, 'previewPdf'])->name('product.previewPdf');
+    Route::get('/product/download-pdf', [ProductsController::class, 'downloadPdf'])->name('product.downloadPdf');
 
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
